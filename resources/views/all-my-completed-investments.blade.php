@@ -61,9 +61,9 @@
 									@if(count($investments) > 0)
 										@foreach($investments as $inv)
 							    <tr>
-							      <td>${{$inv->investment->amount_invested}}</td>
+							      <td>${{number_format($inv->investment->amount_invested)}}</td>
 							      <td>{{$inv->investment->listing->title}}</td>
-							      <td>${{$inv->amount_returned}}</td>
+							      <td>${{number_format($inv->amount_returned)}}</td>
 										<td>{{round((($inv->amount_returned - $inv->investment->amount_invested) / $inv->investment->amount_invested) * 100, 2)}}%</td>
 							    </tr>
 										@endforeach

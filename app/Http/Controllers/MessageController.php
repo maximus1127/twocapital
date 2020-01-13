@@ -57,23 +57,28 @@ class MessageController extends Controller
 
         $message = $message->fresh();
 
-        $append = '	 <li class="left clearfix">
-                           <span class="chat-img1 pull-left">
-                           <img src="'.$message->user->avatar_path != null? Storage::url($message->user->avatar_path) : asset('/img/avatar.jpg').'" alt="User Avatar" class="img-circle">
-                           </span>
+        $append = '<li class="left clearfix">
+                           <span class="chat-img1 pull-left">';
+                           if($message->user->avatar_path != null){
+                          $append .= '<img src="'.Storage::url($message->user->avatar_path).'" alt="User Avatar" class="img-circle">';
+                        } else {
+                          $append .= '<img src="'.asset('/img/avatar.jpg').'" alt="User Avatar" class="img-circle">';
+                        }
+                          $append .= '</span>
                            <div class="chat-body1 clearfix">
                               <p>'.$message->message.' <br />';
       													if($message->images != null){
 
       															foreach(json_decode($message->images) as $test){
-      															$append .=	'<img src="'.Storage::url($test).'" style="max-width: 50px" onclick="openModal(this)"" class="hover-shadow" />';
+      															$append .=	'<a href="'.Storage::url($test).'" style="max-width: 50px cursor: pointer;" data-lightbox="message"'.$message->id.'"><img src="'.Storage::url($test).'" style="max-width: 50px; cursor: pointer;" /></a>';
+
                                   };
 
       													};
 
       											$append .='	</p>
 
-      												<div class="chat_time pull-right" style="float: right;">'. \Carbon\Carbon::parse($message->created_at)->diffForHumans().'</div>
+      												<div class="chat_time pull-right" style="float: right;">'. \Carbon\Carbon::parse($message->created_at)->diffForHumans().' by '.$message->user->fname.'</div>
                            </div>
             </li>';
 

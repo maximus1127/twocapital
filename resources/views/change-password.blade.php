@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 
-			<!-- ============================ Page Title End ================================== -->
-
-			<!-- ============================ User Dashboard ================================== -->
+@section('content')
 			<section>
 				<div class="container">
 					<div class="row">
@@ -37,6 +35,24 @@
 												<label>Confirm password</label>
 												<input type="password" class="form-control" name="newPw2" id="newPw2">
 											</div>
+											Must Contain:
+											<ul>
+												<li>
+													8 Characters
+												</li>
+												<li>
+													1 Uppercase
+												</li>
+												<li>
+													1 Lowercase
+												</li>
+												<li>
+													1 Number
+												</li>
+												<li>
+													1 Special Character (@, $, !, %, *, #, ?, &)
+												</li>
+											</ul>
 
 											<div class="form-group col-lg-12 col-md-12">
 												<button class="btn btn-theme" type="submit">Save Changes</button>
@@ -57,3 +73,4 @@
 
 
 			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+@endsection

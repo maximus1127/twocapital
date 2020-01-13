@@ -15,6 +15,9 @@ class CreateEmailPrefsTable extends Migration
     {
         Schema::create('email_prefs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
+            $table->bigInteger('listing_id');
+            $table->integer('notify')->default(0);
             $table->timestamps();
         });
     }

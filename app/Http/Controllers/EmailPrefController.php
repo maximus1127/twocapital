@@ -67,9 +67,24 @@ class EmailPrefController extends Controller
      * @param  \App\EmailPref  $emailPref
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EmailPref $emailPref)
+    public function update(Request $request)
     {
-        //
+        $pref = EmailPref::where('user_id', $request->user)
+                ->where('listing_id', $request->listing)->first();
+        if(!$pref){
+          $sub = new EmailPref();
+          $sub->user_id = $request->user;
+          $sub->listing_id = $request->listing;
+          $sub->notify = $request->notify;
+          if($sub->save()){
+            return 1;
+          } else {
+            return 0;
+          }
+        } else {
+          $pref->delete();
+          return 0;
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('header_styles')
+ <link  href="{{asset('/css/lightbox.min.css')}}" rel="stylesheet" type="text/css">
+@endsection
 @section('content')
 	@if ($message = Session::get('success'))
 <div class="alert alert-success alert-block">
@@ -26,14 +28,14 @@
 							@endif
 							<div class="slide-property-first mb-4">
 								<div class="pr-price-into">
-									<h2>${{$listing->target_raise}} <i>${{$listing->share_price}}/share</i> <span class="prt-type rent">{{$listing->category}}</span></h2>
+									<h2>${{number_format($listing->target_raise)}} <i>${{number_format($listing->share_price)}}/share</i> <span class="prt-type rent">{{$listing->category}}</span><span class="prt-type">{{$listing->active}}</span></h2>
 									<span><i class="lni-map-marker"></i> {{$listing->address.' '.$listing->city.', '.$listing->state.' '.$listing->zip}}</span><hr />
 									<p>
-										<span style="color: rgb(243, 48, 108)">Your Investment</span> / <span style="color: #27B737">Total Raised</span>
+										<span style="color: rgb(243, 48, 108)">Your Investment: ${{number_format($dollars)}}</span> / <span style="color: #27B737">Total Raised: ${{number_format($listing->current_raise)}}</span> / <span class="pull-right">Listing Amount: ${{number_format($listing->target_raise)}}</span>
 									</p>
-									<div class="progress">
+									<div class="progress" style="background-color: #9b9999;">
 
-										<div class="progress-bar bg-danger" role="progressbar" style="width:{{$user_bar_percent}}%; color:white;">
+										<div class="progress-bar bg-danger" role="progressbar" style="width:{{$user_bar_percent}}%; color:white; ">
 								      {{round($user_bar_percent)}}%
 								    </div>
 								    <div class="progress-bar bg-success" role="progressbar" style="width:{{$progress_bar_percent}}%; color: white;">
@@ -114,7 +116,7 @@
 								</div>
 
 								<div class="block-body">
-									{{$listing->public_description}}
+										<h5>{{$listing->title}}</h5>{{$listing->public_description}}
 								</div>
 
 							</div>
@@ -204,17 +206,34 @@
 
 							<div class="block-wrap" style="max-height: 500px; overflow-y: scroll;">
 
+
 								<div class="block-header">
 									<h4 class="block-title">Discussion</h4>
+									<input type="checkbox" name="subscribe" id="subscribe" value="1" {{$pref != null? 'checked':''}}/> Subscribe to email alerts for this discussion
 								</div>
 
 								<div class="block-body">
-									@foreach($listing_posts as $lp)
+									@foreach($listing_posts as $message)
+										<div class="left clearfix">
+								 									 <span class="chat-img1 pull-left">
+								 									 <img src="{{$message->user->avatar_path != null? Storage::url($message->user->avatar_path) : asset('/img/avatar.jpg')}}" alt="User Avatar" class="img-circle" style="width:50px; float:left">
+								 									 </span>
+								 									 <div class="chat-body1 clearfix">
+								 											<p>{{$message->content}} </p><br />
 
-										<p>
-											{{$lp->content}} <br /><small>posted by {{$lp->user->fname}} {{Carbon\Carbon::parse($lp->created_at)->diffForHumans()}}</small>
-										</p>
-										<hr />
+																				@if($message->images != null)
+																					<div>
+																						@for($i = 0; $i < count(json_decode($message->images)); $i++)
+																							<a href = "{{Storage::url(json_decode($message->images)[$i])}}"   data-lightbox = "message{{$message->id}}" ><img src="{{Storage::url(json_decode($message->images)[$i])}}" style="max-width: 50px; cursor: pointer;" /></a>
+
+																						@endfor
+																					</div>
+																				@endif
+
+
+								 											<div class="chat_time pull-right" style="float: right;">{{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}</div>
+								 									 </div>
+								 		</div><hr />
 									@endforeach
 								</div>
 
@@ -266,27 +285,21 @@
 																	<h4>Invest In This Property</h4>
 																	<form method="post" action="{{route('submit-investment')}}">
 																		<input type="hidden" value="{{$listing->id}}" name="listing" />
+                                    @if(Auth::user()->role != 'super')
 																		 <input type="hidden" name="investor" value="{{Auth::user()->id}}" />
-																		 @csrf
-																		 <div class="form-group">
-	 																		<div class="input-with-icon">
-																				<label for="acc">Account Type</label>
-	 																			<select id="acc" name="account_type" class="form-control">
-	 																				<option value="Checking">Checking</option>
-	 																				<option value="Savings">Savings</option>
-	 																			</select>
-	 																		</div>
-	 																	</div>
+                                   @else
+                                     <select name="investor" class='form-control'>
 
-																	<div class="row">
-																		<div class="col-lg-12 col-md-12 col-sm-12">
-																			<div class="form-group">
-																				<div class="input-with-icon">
-																					<input type="text" class="form-control" placeholder="Name on Account" name="account_name" required>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
+                                       @foreach(App\User::all() as $user)
+                                         <option value="{{$user->id}}">{{$user->fname.' '.$user->lname}}</option>
+                                       @endforeach
+
+                                     </select>
+                                   @endif
+																		 @csrf
+
+
+
 																	<div class="row">
 																		<div class="col-lg-12 col-md-12 col-sm-12">
 																			<div class="form-group">
@@ -297,7 +310,7 @@
 																			</div>
 																		</div>
 																	</div>
-																	<div class="row">
+																	{{-- <div class="row">
 																		<div class="col-lg-6 col-md-6 col-sm-6">
 																			<div class="form-group">
 																				<div>
@@ -313,8 +326,8 @@
 																			</div>
 																		</div>
 																		<img src="{{asset('/img/check.png')}}" style="width: 100%;"/>
-																	</div>
-
+																	</div> --}}
+{{--
 																	<div class="row">
 																		<div class="col-lg-6 col-md-6 col-sm-6">
 																			<div class="form-group">
@@ -331,14 +344,24 @@
 																			</div>
 																		</div>
 
-																	</div>
+																	</div> --}}
 																	<div class="row">
 																		<div class="col-lg-2 col-md-2 col-sm-2">
 																			<input id="agree" type="checkbox" required />
 
 																		</div>
 																		<div class="col-lg-10 col-md-10 col-sm-10">
-																			I have read and agree to all property investment guidelines as made known by Salt Capital<br />
+																			I give permission for SALT Capital to contact me for additional information required to complete legal documentation.<br />
+
+																		</div>
+																	</div>
+																	<div class="row">
+																		<div class="col-lg-2 col-md-2 col-sm-2">
+																			<input id="agree2" type="checkbox" required />
+
+																		</div>
+																		<div class="col-lg-10 col-md-10 col-sm-10"> I understand that my investment in this property is not final
+																			until the Private Placement Memorandum and other supporting documents have been signed and executed.<br />
 
 																		</div>
 																	</div>
@@ -348,7 +371,14 @@
 
 
 															</form>
-															<a href="{{Storage::url($listing->document_1_path)}}" target="_blank">Download PPM</a>
+															<div class="agent-widget">
+																<div class="agent-title">
+
+																		<h4>Listing Documents</h4>
+
+																</div>
+																<a href="{{Storage::url($listing->document_1_path)}}" target="_blank">Download PPM</a>
+															</div>
 																</div>
 																<!-- Agent Detail -->
 																<div class="agent-widget">
@@ -357,17 +387,30 @@
 																			<h4>Have a question or a comment?</h4>
 
 																	</div>
-																	<form method="post" action="{{route('createPost')}}">
-																		@csrf
-																	<div class="form-group">
-																		<textarea class="form-control" name="content"></textarea>
-																		<input type="hidden" name="listing_id" value="{{$listing->id}}" />
-																	</div>
-																	<p>
-																		This message will be seen by all users when viewing this listing page. For private messaging, use the "Contact Admin" link at the bottom of this page.
-																	</p>
-																	<button type="submit" class="btn btn-theme full-width">Send Message</button>
-																</div>
+
+															<form method="post" enctype="multipart/form-data">
+																<input type="hidden" name="listingId" value="{{$listing->id}}" />
+																<input type="hidden" name="listingTitle" value="{{$listing->title}}" />
+																@csrf
+									    	 					 <textarea class="form-control" placeholder="type a message" name="post_content" row="1"></textarea>
+																	 <p>
+																		 This message will be seen by all users when viewing this listing page. For private messaging, use the "Contact Admin" link at the bottom of this page.
+																	 </p>
+																	 <div class="clearfix"></div>
+																	 <div class="chat_bottom">
+																		 @if(Auth::user()->role == "super")
+																		 <a href="#" id="addFile">Add More Files</a> <br />
+																			 <div id="fileContainer">
+																			 <input type="file" class="pull-left upload_btn" name="post_image[]" id="post_image"><br />
+																		 </div><br />
+																			<button type="submit" class="btn btn-theme full-width" formaction="{{route('createPost')}}">Send To Public Feed & Listing</button><br />
+																				<button type="submit" class="btn btn-warning full-width" formaction="{{route('createPrivatePost')}}">Send To Listing Only</button>
+
+																		 @else
+																		 <button type="submit" class="btn btn-theme full-width" formaction="{{route('createPrivatePost')}}">Send Message</button>
+																		  @endif
+																	 </div>
+																 </div>
 															</form>
 
 
@@ -382,6 +425,7 @@
 
 					</div>
 				</div>
+
 			</section>
 
 
@@ -396,7 +440,14 @@
 <script>
 	 var singleMarker = '{{ URL::asset('assets/img/marker.png') }}';
 </script>
+<script  type="text/javascript" src="{{asset('js/lightbox.min.js')}}"></script>
 <script>
+
+lightbox.option({
+	 'resizeDuration': 200,
+	 'wrapAround': true,
+	 'fadeDuration': 200
+ })
 
 
 	$("#shares").keyup(function(){
@@ -409,12 +460,96 @@
 		});
 
 $(document).change(function(){
-	if($("#shares").val() <= {{$listing->remaining_shares}} && $("#agree").prop('checked') && $("#shares").val() >= 5){
+	if($("#shares").val() <= {{$listing->remaining_shares}} && $("#agree").prop('checked') && $('#agree2').prop('checked') && $("#shares").val() >= 5){
 		$('#submit').prop('disabled', false);
-	} else{
+	} else if("{{Auth::user()->role}}" == "super" && $("#shares").val() <= {{$listing->remaining_shares}} && $("#agree").prop('checked') && $('#agree2').prop('checked') && $("#shares").val() > 0)  {
+    	$('#submit').prop('disabled', false);
+  }
+
+
+  else{
 			$('#submit').prop('disabled', true);
 	}
 });
+
+
+$("#subscribe").change(function(){
+	var sub;
+	if($('#subscribe').prop('checked') == true){
+		sub = 1;
+	} else {
+		sub = 0;
+	}
+	$.ajaxSetup({
+    headers: {
+					       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					    }
+					});
+	$.ajax({
+		url: '{{route('change-pref')}}',
+		type: 'post',
+		data:{
+			user: {{Auth::user()->id}},
+			listing: {{$listing->id}},
+			notify: sub
+		},
+		success: function(data){
+			if(data == 1){
+				alert('You are now subscribed to notifications');
+			} else {
+				alert('You are unsubscribed from notifications');
+			}
+		}
+	});
+
+
+});
+
+
+$('#addFile').click(function(e){
+	e.preventDefault();
+	$('#fileContainer').append(`<input type="file" class="pull-left upload_btn" name="post_image[]"><br />`);
+
+});
+
+// // Open the Modal
+// function openModal() {
+//   document.getElementById("myModal").style.display = "block";
+// }
+//
+// // Close the Modal
+// function closeModal() {
+//   document.getElementById("myModal").style.display = "none";
+// }
+//
+// var slideIndex = 1;
+// showSlides(slideIndex);
+//
+// // Next/previous controls
+// function plusSlides(n) {
+//   showSlides(slideIndex += n);
+// }
+//
+// // Thumbnail image controls
+// function currentSlide(n, o) {
+//   showSlides(slideIndex = n, o);
+// }
+//
+// function showSlides(n, o) {
+//
+//   var i;
+//   var slides = document.getElementsByClassName("slides"+o);
+//   if (n > slides.length) {slideIndex = 1}
+//   if (n < 1) {slideIndex = slides.length}
+//   for (i = 0; i < slides.length; i++) {
+//     slides[i].style.display = "none";
+// 		$('#modal-content').append('
+// 			<div class="mySlides">
+// 			<img src="'+$(slides[i]).attr('src')+'" style="width:100%">
+// 			</div>');
+//   }
+//   slides[slideIndex-1].style.display = "block";
+// }
 
 
 </script>

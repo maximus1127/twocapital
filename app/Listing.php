@@ -22,4 +22,9 @@ class Listing extends Model
       $duration = $time1->diffForHumans($time2, ['parts' => 2, 'syntax' => CarbonInterface::DIFF_ABSOLUTE]);
       return $duration;
     }
+
+    public function getShortDescriptionAttribute()
+   {
+       return Str::words($this->description, 10, '...');
+   }
 }

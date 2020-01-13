@@ -76,6 +76,24 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
+                                Must Contain:
+          											<ul>
+          												<li>
+          													8 Characters
+          												</li>
+          												<li>
+          													1 Uppercase
+          												</li>
+          												<li>
+          													1 Lowercase
+          												</li>
+          												<li>
+          													1 Number
+          												</li>
+          												<li>
+          													1 Special Character (@, $, !, %, *, #, ?, &)
+          												</li>
+          											</ul>
                             </div>
                         </div>
 
@@ -123,27 +141,8 @@
                                 <input id="phone" type="text" class="form-control" name="phone" required>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label  class="col-md-4 col-form-label text-md-right">Drivers License Front</label>
-                            <div class="col-md-6">
-                                <input id="dl_front" type="file" class="form-control" name="dl_front" required>
-                            </div>
 
-                        </div>
-                        <div class="form-group row">
-                            <label  class="col-md-4 col-form-label text-md-right">Drivers LicenseBack</label>
-
-                            <div class="col-md-6">
-                                <input id="dl_back" type="file" class="form-control" name="dl_back" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="ssn" class="col-md-4 col-form-label text-md-right">SSN/Tax ID</label>
-
-                            <div class="col-md-6">
-                                <input id="ssn" type="text" class="form-control" name="ssn" required>
-                            </div>
-                        </div>
+                
                         <div class="form-group row">
                             <label for="country" class="col-md-4 col-form-label text-md-right">State</label>
 

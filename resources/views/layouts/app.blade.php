@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+				<meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Salt Capital</title>
 
@@ -19,9 +20,20 @@
 		<!-- Custom Color Option -->
 		<link href="{{asset('/assets/css/colors.css')}}" rel="stylesheet">
 		@yield('header_styles')
-    <style>
+		<style>
 
-    </style>
+	 .brand{
+	 	max-width: 80px;
+	 }
+	 @media only screen and (max-width: 600px) {
+	   .brand {
+	     max-width: 60px;
+	   }
+	 }
+
+
+
+	  </style>
 
     </head>
 
@@ -29,7 +41,7 @@
         <!-- ============================================================== -->
         <!-- Preloader - style you can find in spinners.css -->
         <!-- ============================================================== -->
-        <div id="preloader"><div class="preloader"><span></span><span></span></div></div>
+        {{-- <div id="preloader"><div class="preloader"><span></span><span></span></div></div> --}}
 
 
         <!-- ============================================================== -->
@@ -46,7 +58,7 @@
         @auth
         <nav class="headnavbar">
           <div class="nav-header">
-            <a href="{{route('home')}}" class="brand"><img src="{{asset('img/Logo.png')}}" style="max-width: 80px;" alt="" /></a>
+            <a href="{{route('home')}}" class="brand"><img src="{{asset('img/Logo.png')}}" alt="" /></a>
             <button class="toggle-bar"><span class="ti-align-justify"></span></button>
           </div>
           <ul class="menu">
@@ -72,8 +84,8 @@
                 {{-- <li class="dropdown">
                   <a href="JavaScript:Void(0);">List Layouts</a>
                   <ul class="dropdown-menu"> --}}
-                    <li><a href="{{route('view-listings')}}">All Active Listings</a></li>
-                    <li><a href="{{route('funded-listings')}}">View Funded Listings</a></li>
+                    <li><a href="{{route('view-listings')}}">Active Listings</a></li>
+                    <li><a href="{{route('funded-listings')}}">Funded Listings</a></li>
                     {{-- <li><a href="list-layout-full.html">Full Width</a></li> --}}
                   {{-- </ul>
                 </li> --}}
@@ -100,7 +112,7 @@
             </li>
 
             <li class="dropdown">
-              <a href="JavaScript:Void(0);">My Salt</a>
+              <a href="JavaScript:Void(0);">My Account</a>
               <ul class="dropdown-menu">
                 {{-- <li class="dropdown">
                   <a href="JavaScript:Void(0);">Single Property</a>
@@ -119,15 +131,12 @@
                     <li><a href="agency-page.html">Agency Page</a></li>
                   </ul>
                 </li> --}}
-                <li class="dropdown">
-                  <a href="JavaScript:Void(0);">My Account</a>
-                  <ul class="dropdown-menu">
-                    <li><a href="{{route('update-profile')}}">My Profile</a></li>
+                    <li><a href="{{route('update-profile')}}">Profile</a></li>
                     <li><a href="{{route('viewMyActive')}}">Property List</a></li>
                     {{-- <li><a href="bookmark-list.html">Bookmarked Listings</a></li>
                     <li><a href="change-password.html">Change Password</a></li> --}}
-                  </ul>
-                </li>
+
+
                 {{-- <li>
                   <a href="compare-property.html">Compare Property</a>
                 </li>
@@ -180,7 +189,7 @@
       @endauth
       </div>
 
-        <main class="py-4">
+        <main class="py-4" style="padding-top: 0 !important;">
             @yield('content')
         </main>
     </div>
@@ -193,7 +202,7 @@
 						<div class="col-lg-3 col-md-6">
 							<div class="footer-widget">
 								<h4 class="widget-title">About Salt Capital</h4>
-								<p>Salt Capital Equity Group is trying to bridge the gap into the real estate market between small investors and otherwise out-of-reach opportunities.</p>
+								<p>SALT Capital is a membership-based equity group focused on helping investors build generational wealth through sustainable and transparent real estate investments.</p>
 								<a href="#" class="other-store-link">
 									{{-- <div class="other-store-app">
 										<div class="os-app-icon">
@@ -210,8 +219,8 @@
 							<div class="footer-widget">
 								<h4 class="widget-title">Useful links</h4>
 								<ul class="footer-menu">
-									<li><a href="about-us.html">Cancel An Investment</a></li>
-									<li><a href="faq.html">Contact Admin</a></li>
+									<li><a href="{{route('cancel')}}">Cancel An Investment</a></li>
+									<li><a href="{{route('contact')}}">Contact Admin</a></li>
 
 								</ul>
 							</div>
@@ -275,7 +284,7 @@
 			</div>
 		</footer>
 		<script src="{{asset('/js/app.js')}}"></script>
-    <script src="{{asset('/assets/js/jquery.min.js')}}"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="{{asset('/assets/js/popper.min.js')}}"></script>
 		<script src="{{asset('/assets/js/bootstrap.min.js')}}"></script>
 		<script src="{{asset('/assets/js/rangeslider.js')}}"></script>
@@ -293,7 +302,7 @@
 
 		<!-- Map -->
 		@yield('footer-scripts')
-		<script src="http://maps.google.com/maps/api/js?key=AIzaSyCr6kzadiLQhKFEFPSHU4QFtR3GClvLZtM"></script>
+		<script src="https://maps.google.com/maps/api/js?key=AIzaSyCr6kzadiLQhKFEFPSHU4QFtR3GClvLZtM"></script>
 		<script src="{{asset('/assets/js/map_infobox.js')}}"></script>
 		<script src="{{asset('/assets/js/markerclusterer.js')}}"></script>
 		<script src="{{asset('/assets/js/map.js')}}"></script>

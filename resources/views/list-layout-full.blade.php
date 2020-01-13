@@ -30,16 +30,16 @@
 								<div class="col-lg-12 col-md-12">
 									<div class="property-listing property-1">
 
-										<div class="listing-img-wrapper">
+										<div class="listing-img-wrapper col-md-4" >
 											<a href="{{route('investor-listing', $listing->id)}}">
-												<img src="{{Storage::url($listing->image_1_path)}}" class="img-fluid mx-auto" alt="" />
+												<img src="{{Storage::url($listing->image_1_path)}}" class="img-fluid mx-auto" alt=""/>
 											</a>
 											@if(in_array($listing->id, $all_inv))
 											<span class="property-type" style="background-color: green; color: white">Invested</span>
 										@endif
 										</div>
 
-										<div class="listing-content">
+										<div class="listing-content col-md-8">
 
 											<div class="listing-detail-wrapper">
 												<div class="listing-short-detail">
@@ -48,9 +48,9 @@
 												</div>
 											</div>
 
-											<div class="listing-features-info">
+											<div class="listing-features-info" >
 										<ul>
-											{{$listing->public_description}}
+										{!! Str::limit($listing->public_description, 80, ' ...') !!}
 										</ul>
 											</div>
 {{--
@@ -64,7 +64,7 @@
 
 											<div class="listing-footer-wrapper">
 												<div class="listing-price">
-													<h4 class="list-pr">${{$listing->target_raise}}</h4>
+													<h4 class="list-pr">${{number_format($listing->target_raise)}}</h4>
 													<div class="progress">
 														<div class="progress-bar bg-success" role="progressbar" style="width: {{round(($listing->current_raise / $listing->target_raise)*100, 2)}}%" aria-valuenow="{{round(($listing->current_raise / $listing->target_raise)*100, 2)}}" aria-valuemin="0" aria-valuemax="100">{{round(($listing->current_raise/$listing->target_raise)*100)}}%</div>
 													</div>
@@ -92,5 +92,16 @@
 			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
 
 
+
+@endsection
+
+@section('footer-scripts')
+
+<script>
+
+	var s = $("#description").val();
+	s.truc(100);
+
+</script>
 
 @endsection

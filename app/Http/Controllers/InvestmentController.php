@@ -76,16 +76,10 @@ class InvestmentController extends Controller
       $investment->listing_id = $request->listing;
       $investment->amount_invested = $request->investment;
       $investment->shares = $request->shares;
-      $investment->ach = encrypt($request->ach);
-      $investment->routing = encrypt($request->routing);
-      $investment->account_type = $request->account_type;
-      $investment->account_name = $request->account_name;
-      $investment->bank_name = $request->bank_name;
-      $investment->bank_location = $request->bank_location;
       $listing = Listing::find($request->listing);
       $listing->remaining_shares -= $request->shares;
       if($listing->remaining_shares == 0){
-        $listing->active = 'Inactive';
+        $listing->active = 'Funded';
       }
       $listing->current_raise += $request->investment;
 
@@ -102,7 +96,7 @@ class InvestmentController extends Controller
         //      )
         //
         //   ));
-        return back()->with('success', 'Investment Requested Successfully');
+        return back()->with('success', 'Investment requested successfully and is pending approval.');
       } else {
         return back()->with('error', 'Could not request investment');
       }

@@ -39,13 +39,6 @@
                        <option value="Archived">Archived</option>
 
                      </select>
-                     Active
-Funded
-Development
-Post-Development
-Completed
-Inactive
-Archived
             </div>
         </div>
         <div class="form-group row">
@@ -419,9 +412,7 @@ Archived
 @stop
 
 
-@section('footer_scripts')
-  <script type="text/javascript" src="{{asset('assets/vendors/iCheck/js/icheck.js')}}" ></script>
-  <script type="text/javascript" src="{{asset('assets/js/custom_js/form_layouts.js')}}"></script>
+@section('footer-scripts')
 
   <script>
   function deleteDocument(e){
@@ -471,5 +462,3 @@ function deleteImage(e){
   </script>
 
 @endsection
-</body>
-</html>

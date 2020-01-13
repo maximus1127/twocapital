@@ -22,6 +22,7 @@ class VerifyCsrfToken extends Middleware
         "/admin/save-note",
         "/admin/approve-user",
         "/admin/decline-user",
-        '/admin/get-investment-user'
+        '/admin/get-investment-user',
+        '/spa-contact'
     ];
 }

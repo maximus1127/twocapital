@@ -15,36 +15,41 @@
 
 								<!-- Basic Information -->
 								<div class="form-submit">
-									<div class="form-submit" style="border-bottom: 2px solid #27b737">
-										<h4>Financial Stats</h4>
-										<div class="submit-section">
-											<div class="form-row">
+									<div class="form-submit" style="border-bottom: 2px solid #27b737; padding-top: 10px">
 
-												<div class="form-group col-md-6">
-													<label>Dollars Invested</label>
-													<h3>${{$total_dollars}}</h3>
-												</div>
+ 					         <div class="submit-section">
+ 					           <div class="form-row">
 
-												<div class="form-group col-md-6">
-													<label>Dollars Active</label>
-													<h3>${{$active_dollars}}</h3>
-												</div>
+ 					             <div class="form-group col-md-6">
+ 					               <label>Completed Investments</label>
+ 					               <h3>${{number_format($completed_dollars)}}</h3>
+ 					             </div>
 
-												<div class="form-group col-md-6">
-													<label>Active Projects</label>
-													<h3>{{$investments->count()}}</h3>
-												</div>
+ 					             <div class="form-group col-md-6">
+ 					               <label>Active Investments</label>
+ 					               <h3>${{number_format($active_dollars)}}</h3>
+ 					             </div>
 
-												<div class="form-group col-md-6">
-													<label>Dollars Returned</label>
-													<a href="{{route('view-my-completed-investments')}}"><h3 style="color: #27B737">${{$earned_dollars}}</h3></a>
-												</div>
+ 					             <div class="form-group col-md-6">
+ 					               <label>Completed Projects</label>
+ 					               <h3>{{number_format($completed_projects)}}</h3>
+ 					             </div>
+
+ 					             <div class="form-group col-md-6">
+ 					               <label>Active Projects</label>
+ 					               <h3>{{number_format($active_projects)}}</h3>
+ 					             </div>
+
+ 					             <div class="form-group col-md-6">
+ 					               <label>Profit</label>
+ 					               <a href="{{route('view-my-completed-investments')}}"><h3 style="color: #27B737">${{number_format($earned_dollars)}}</h3></a>
+ 					             </div>
 
 
 
-											</div>
-										</div>
-									</div>
+ 					           </div>
+ 					         </div>
+ 					       </div>
 									<form method="post" action="{{route('update-profile')}}" enctype="multipart/form-data">
 
 										@csrf
@@ -176,4 +181,15 @@
 
 
 			<a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+@endsection
+
+@section('footer-scripts')
+
+<script>
+function avatar(){
+	$('#avatar').click();
+}
+
+</script>
+
 @endsection

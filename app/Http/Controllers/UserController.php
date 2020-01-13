@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Mail\NewRegistration;
 use Mail;
 use Illuminate\Support\Facades\Storage;
-use Hash;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\Mail\UserAccountApproved;
 use Illuminate\Auth\Events\Registered;
 use App\User;
@@ -73,9 +74,10 @@ class UserController extends Controller
 
     }
 
-    public function declineUser(Request $request){
-      $user = User::findOrFail($request->user);
+    public function declineUser($id){
+      $user = User::findOrFail($id);
       $user->delete();
+      return back();
     }
 
 
@@ -96,9 +98,6 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password_confirmation);
         $user->phone = $request->phone;
-        $user->dl_front = $request->file('dl_front')->store('/user_documents', 'private');
-        $user->dl_back = $request->file('dl_back')->store('/user_documents', 'private');
-        $user->ssn = encrypt($request->ssn);
         $user->state = $request->country;
         $user->city = $request->city;
         $user->address = $request->address;
@@ -129,30 +128,37 @@ class UserController extends Controller
      */
     public function edit()
     {
-        $total_dollars = 0;
-        $active_dollars = 0;
-        $earned_dollars = 0;
+      $completed_dollars = 0;
+      $active_dollars = 0;
+      $earned_dollars = 0;
 
-        $investments = Investment::where('user_id', Auth::user()->id)->get();
+      $investmentss = Investment::where('user_id', Auth::user()->id)->get();
 
-        foreach($investments as $i){
-          if($i->completed == 0 && $i->investment_completed != 2){
-            $active_dollars += $i->amount_invested;
-          }
-          if($i->investment_completed != 2){
-          $total_dollars += $i->amount_invested;
+      $completed_projects = $investmentss->where('user_id', Auth::user()->id)
+                                        ->where('completed', 1)->unique('listing_id')->count();
+      $active_projects = $investmentss->where('user_id', Auth::user()->id)
+                                          ->where('investment_completed', '!=', 2)
+                                          ->where('completed', 0)->unique('listing_id')->count();
+      foreach($investmentss as $i){
+        if($i->completed == 1 && $i->investment_completed != 2){
+          $completed_dollars += $i->amount_invested;
         }
+      }
+      foreach($investmentss as $i){
+        if($i->completed == 0 && $i->investment_completed != 2){
+          $active_dollars += $i->amount_invested;
         }
+      }
 
-        $returns = InvestmentReturn::where('user_id', Auth::user()->id)->get();
-        foreach($returns as $r){
-          $earned_dollars += $r->amount_returned;
-        }
+      $returns = InvestmentReturn::where('user_id', Auth::user()->id)->get();
+      foreach($returns as $r){
+        $earned_dollars += $r->amount_returned;
+      }
 
 
         $user = User::find(Auth::user()->id);
 
-        return view('my-profile')->with(compact('user', 'total_dollars', 'active_dollars', 'investments', 'earned_dollars'));
+        return view('my-profile')->with(compact('user', 'total_dollars', 'active_dollars', 'investments', 'earned_dollars', 'completed_dollars', 'active_projects', 'completed_projects'));
     }
 
     public function updateAvatar(Request $request){
@@ -203,17 +209,53 @@ class UserController extends Controller
 
     public function storeNewPassword(Request $request){
       $user = Auth::user();
+
       if (Hash::check($request->oldPw, $user->password)) {
 
         if($request->newPw1 == $request->newPw2) {
+          $inputs = ['newPw2'    => $request->newPw2];
+
+      $rules = [
+          'newPw2' => [
+              'required',
+              'string',
+              'min:8',             // must be at least 10 characters in length
+              'regex:/[a-z]/',      // must contain at least one lowercase letter
+              'regex:/[A-Z]/',      // must contain at least one uppercase letter
+              'regex:/[0-9]/',      // must contain at least one digit
+              'regex:/[@$!%*#?&]/', // must contain a special character
+              ],
+          ];
+
+      $validated = \Validator::make( $inputs, $rules );
+
+          if(!$validated->fails()){
          $user->password = Hash::make($request->newPw2);
-          $user->save();
-          return back()->with('success', "Password Changed.");
+          if($user->save())
+          {
+              return back()->with('success', "Password Changed.");
+          }
+        } else {
+          return back()->with('error', 'New password did not meet criteria');
+        }
         } else {
           return back()->with('error', 'Passwords Do Not Match');
         }
       } else {
           return back()->with('error', 'Password does not match');
+      }
+    }
+
+
+
+    public function updateUserRole(Request $request){
+      $user = User::find($request->user);
+      $user->role = $request->role;
+      if($user->save()){
+        $user = $user->fresh();
+        return $user;
+      } else {
+        return 'Error';
       }
     }
 

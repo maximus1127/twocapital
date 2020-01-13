@@ -25,7 +25,11 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/investor/home';
+    protected function redirectTo(){
+
+      return view('/auth.login')->with('success', 'Your email has been verified. You may now login.');
+
+    }
 
     /**
      * Create a new controller instance.

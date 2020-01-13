@@ -12,13 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/spa-views/main');
 });
 Route::get('/home', 'HomeController@index');
 Route::post('/add-new-user', 'UserController@store')->name('new-user');
-Route::get('/investor/join-salt-capital-investing','UserController@create');
+Route::get('/investor/join-salt-capital-investing','UserController@create')->name('portal-register');
 
 Auth::routes(['verify' => true]);
+
+
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']],function () {
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', 'InvestmentController@test');
@@ -34,6 +36,7 @@ Route::get('/view-archived-listings', 'ListingController@viewAllArchived')->name
 Route::get('/delete-document', 'ListingController@deleteDocument')->name('delete-document');
 Route::get('/delete-image', 'ListingController@deleteImage')->name('delete-image');
 Route::get('/investor-listing/{id}', 'ListingController@adminListing')->name('admin-listing');
+Route::post('/admin-submit-post', 'ListingPostController@store')->name('createPost');
 // Investments
 Route::get('/add-investment', 'InvestmentController@index')->name('add-investment');
 Route::post('/add-investment', 'InvestmentController@store')->name('add-investment');
@@ -62,8 +65,12 @@ Route::post('/save-note', 'AdminPostsController@store')->name('save-note');
 Route::get('/private-files/{file?}','FileController@get')->where('file', '(.*)');
 Route::get('/approval-list', 'UserController@approvalList')->name('approval-list');
 Route::get('/approve-user/{id}', 'UserController@approveUser')->name('approve-user');
-Route::get('/decline-user', 'UserController@declineUser')->name('decline-user');
+Route::get('/decline-user/{id}', 'UserController@declineUser')->name('decline-user');
 Route::get('/view-user-investments/{id}', 'InvestmentController@viewInvestorProperties')->name('viewInvestorProperties');
+Route::get('/update-user-role', 'UserController@updateUserRole')->name('updateUserRole');
+
+//Email Preferences
+Route::post('/change-pref', 'EmailPrefController@update')->name('change-pref');
 });
 
 
@@ -80,13 +87,16 @@ Route::post('update-avatar', 'UserController@updateAvatar')->name('update-avatar
 Route::get('/view-my-investments', 'InvestmentController@viewMyActive')->name('viewMyActive');
 Route::get('change-password', 'UserController@updatePassword')->name('change-password');
 Route::post('change-password', 'UserController@storeNewPassword');
-Route::post('/submit-post', 'ListingPostController@store')->name('createPost');
+Route::post('/submit-post', 'ListingPostController@privateReply')->name('createPrivatePost');
 Route::get('/my-completed-investments', 'InvestmentReturnController@viewAllByUser')->name('view-my-completed-investments');
 
 
 //chat
 Route::post('submit-message', 'MessageController@store')->name('submitMessage');
 
+Route::get('cancel', 'HomeController@cancel')->name('cancel');
+Route::get('contact-us', 'HomeController@contact')->name('contact');
+Route::post('send-contact-form', 'HomeController@sendContactForm')->name('sendContactForm');
 
 
 
@@ -94,3 +104,12 @@ Route::post('submit-message', 'MessageController@store')->name('submitMessage');
 
 Route::post('/add-update/{user}/{listing}', 'UpdateController@store')->name('add-update');
 Route::get('mark-read', 'UpdateController@update')->name('mark-read');
+
+//SPA
+Route::get('/spa', function(){
+  return view('/spa-views/main');
+});
+Route::get('/spa-contact', function(){
+  return view('spa-views.contact');
+});
+Route::post('/spa-contact', 'HomeController@spaContact')->name('spaContact');

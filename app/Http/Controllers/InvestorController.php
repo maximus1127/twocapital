@@ -30,20 +30,26 @@ class InvestorController extends Controller
     public function index()
     {
 
-
-      $total_dollars = 0;
+      $completed_dollars = 0;
       $active_dollars = 0;
       $earned_dollars = 0;
 
       $investmentss = Investment::where('user_id', Auth::user()->id)->get();
 
+      $completed_projects = $investmentss->where('user_id', Auth::user()->id)
+                                        ->where('completed', 1)->unique('listing_id')->count();
+      $active_projects = $investmentss->where('user_id', Auth::user()->id)
+                                          ->where('investment_completed', '!=', 2)
+                                          ->where('completed', 0)->unique('listing_id')->count();
+      foreach($investmentss as $i){
+        if($i->completed == 1 && $i->investment_completed != 2){
+          $completed_dollars += $i->amount_invested;
+        }
+      }
       foreach($investmentss as $i){
         if($i->completed == 0 && $i->investment_completed != 2){
           $active_dollars += $i->amount_invested;
         }
-        if($i->investment_completed != 2){
-        $total_dollars += $i->amount_invested;
-      }
       }
 
       $returns = InvestmentReturn::where('user_id', Auth::user()->id)->get();
@@ -52,7 +58,7 @@ class InvestorController extends Controller
       }
 
 
-      $og_listings = Listing::all();
+      $og_listings = Listing::where('active', 'Active')->get();
 
 
       $listings =collect();
@@ -69,7 +75,7 @@ class InvestorController extends Controller
       $investments = $filtered_investments->unique('listing_id');
 
 
-      $funded_listings= Listing::where('remaining_shares', '0')->get();
+      $funded_listings= Listing::where('remaining_shares', '0')->orWhere('active', 'Funded')->get();
 
 
       foreach($funded_listings as $fl){
@@ -86,7 +92,7 @@ class InvestorController extends Controller
         $messages_raw = Message::orderBy('id', 'desc')->take(100)->get();
         $messages = $messages_raw->reverse();
 
-      return view('map')->with(compact('listings', 'investments', 'og_listings', 'funded_listings', 'messages', 'total_dollars', 'active_dollars', 'investments', 'earned_dollars'));
+      return view('map')->with(compact('listings', 'investments', 'og_listings', 'funded_listings', 'messages', 'completed_dollars', 'active_dollars', 'investments', 'earned_dollars', 'completed_projects', 'active_projects'));
     }
 
     /**
@@ -118,9 +124,38 @@ class InvestorController extends Controller
      */
     public function show($id)
     {
-      $this->getFinancials();
+          $user = User::find($id);
 
-      return view('my-profile')->with(compact('user', 'total_dollars', 'active_dollars', 'investments', 'earned_dollars'));
+            $completed_dollars = 0;
+            $active_dollars = 0;
+            $earned_dollars = 0;
+
+            $investmentss = Investment::where('user_id', $user->id)->get();
+
+            $completed_projects = $investmentss->where('user_id', $user->id)
+                                              ->where('completed', 1)->unique('listing_id')->count();
+            $active_projects = $investmentss->where('user_id', $user->id)
+                                                ->where('investment_completed', '!=', 2)
+                                                ->where('completed', 0)->unique('listing_id')->count();
+            foreach($investmentss as $i){
+              if($i->completed == 1 && $i->investment_completed != 2){
+                $completed_dollars += $i->amount_invested;
+              }
+            }
+            foreach($investmentss as $i){
+              if($i->completed == 0 && $i->investment_completed != 2){
+                $active_dollars += $i->amount_invested;
+              }
+            }
+
+            $returns = InvestmentReturn::where('user_id', $user->id)->get();
+            foreach($returns as $r){
+              $earned_dollars += $r->amount_returned;
+            }
+
+
+
+      return view('my-profile')->with(compact('user', 'total_dollars', 'active_dollars', 'investments', 'earned_dollars', 'completed_dollars', 'completed_projects', 'active_projects'));
     }
 
     /**

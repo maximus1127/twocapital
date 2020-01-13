@@ -18,7 +18,7 @@
     <div class="row">
       <div class="col-lg-12 col-md-12">
 
-        <h2 class="ipt-title">Welcome {{$user->fname}}!</h2>
+        <h2 class="ipt-title">Hi {{$user->fname}}!</h2>
         <span class="ipn-subtitle">Welcome To Your Account</span>
 
       </div>

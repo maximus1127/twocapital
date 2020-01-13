@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Investment;
 use App\Update;
 use Illuminate\Support\Facades\Storage;
+use App\EmailPref;
 use Geocoder;
 use Auth;
 use App\ListingPost;
@@ -125,7 +126,7 @@ class ListingController extends Controller
 
     }
     public function viewAllFunded(){
-      $listings = Listing::where('remaining_shares', '')->get();
+      $listings = Listing::where('remaining_shares', '0')->orWhere('active', 'Funded')->get();
         $all_inv = Investment::where('user_id', Auth::user()->id)->pluck('listing_id')->toArray();
       return view('list-layout-full')->with(compact('listings', 'all_inv'));
 
@@ -302,8 +303,10 @@ class ListingController extends Controller
 
 
       $updates = Update::where('listing_id', $id)->orderBy('created_at', 'desc')->get();
+      $pref = EmailPref::where('user_id', Auth::user()->id)
+                        ->where('listing_id', $listing->id)->first();
 
-      return view('listing')->with(compact('listing', 'percent', 'user_bar_percent', 'progress_bar_percent', 'dollars', 'updates', 'listing_posts'));
+      return view('listing')->with(compact('listing', 'percent', 'user_bar_percent', 'progress_bar_percent', 'dollars', 'updates', 'listing_posts', 'pref'));
     }
     public function adminListing($id){
       $listing = Listing::find($id);
@@ -312,7 +315,10 @@ class ListingController extends Controller
                               ->where('listing_id', $id)->count();
       $updates = Update::where('listing_id', $id)->orderBy('created_at', 'desc')->get();
 
-      return view('listing')->with(compact('listing', 'percent', 'investor', 'updates'));
+      $pref = EmailPref::where('user_id', Auth::user()->id)
+                        ->where('listing_id', $listing->id)->first();
+
+      return view('listing')->with(compact('listing', 'percent', 'investor', 'updates', 'pref'));
     }
 
 

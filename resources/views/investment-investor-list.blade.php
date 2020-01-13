@@ -85,9 +85,10 @@
 								<input type="hidden" id="listingID" name="listingID"/>
 								<input type="hidden" id="investmentID" name="investmentID"/>
 					      <div class="modal-body">
-					        Amount Invested: <span id="amount_invested"></span>
+					        Amount Invested: $<span id="amount_invested"></span>
 									<p>
-										Amount Being Returned: $<input type="text" name="amount_returned" id="amount_returned" />
+										Amount Being Returned: $<input type="text" name="amount_returned" id="amount_returned" /><br />
+										<small>This amount reflects initial investment plus the ROI. If the original investment was $1000 and the investor made a 10% return, you should enter $1,100.</small>
 									</p>
 					      </div>
 					      <div class="modal-footer">
