@@ -166,14 +166,14 @@
 	                    <li><a href="#">Cancelled Investments</a></li>
 	                  </ul>
 	                </li>
-	                <li class="dropdown">
-	                  <a href="JavaScript:Void(0);">With Map Layouts</a>
-	                  <ul class="dropdown-menu">
+	                <li >
+	                  <a href="{{route('add-media')}}">Add Media Link</a>
+	                  {{-- <ul class="dropdown-menu">
 	                    <li><a href="list-layout-with-map.html">List With Map</a></li>
 	                    <li><a href="grid-layout-with-map.html">Grid With Map</a></li>
 	                    <li><a href="classical-layout-with-map.html">Classical With Map</a></li>
 	                    <li><a href="half-map.html">Half Map Search</a></li>
-	                  </ul>
+	                  </ul> --}}
 	                </li>
 	              </ul>
 	            </li>
@@ -275,8 +275,13 @@
 				<div class="container">
 					<div class="row align-items-center">
 
-						<div class="col-lg-12 col-md-12 text-center">
-							<p class="mb-0">© 2019 Salt Capital. Designd By <a href="https://themezhub.com">Themez Hub</a> All Rights Reserved</p>
+						<div class="copyright-content">
+								<div class="container">
+
+										<div class="copyright-text text-center">&copy; 2019 SALT Capital Equity Group
+												All Rights Reserved. </div>
+												<p style="font-size: 7pt;" class="text-center">Salt Capital Equity Group, LLC (“SCEG”) operates a website at saltcapitalequitygroup.com (the “Site”). By using this website, you accept our <a href="/terms-of-service">Terms of Use</a> and <a href="/privacy-policy">Privacy Policy</a>. Past performance is no guarantee of future results. Any historical returns, expected returns, or probability projections may not reflect actual future performance. All securities involve risk and may result in partial or total loss. While the data we use from our underwriters and third parties is believed to be reliable, we cannot ensure the accuracy or completeness of third parties. Neither SCEG nor any of its affiliates provide tax advice and do not represent in any manner that the outcomes described herein will result in any particular tax consequence. Prospective investors should confer with their personal tax advisors regarding the tax consequences based on their particular circumstances. Neither SCEG nor any of its affiliates assume responsibility for the tax consequences for any investor of any investment.</p>
+								</div>
 						</div>
 
 					</div>

@@ -74,9 +74,9 @@
                             <a class="btn btn-link" href="https://na3.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ca057ded-9396-443e-ba6a-78cbc18cc978&env=na3-eu1&acct=971291fa-c378-491c-b571-73ea68bf6dcb&v=2">
                                 {{ __('Not a member?') }}
                             </a>
-                            {{-- <a class="btn btn-link" href="{{route('portal-register')}}">
+                            <a class="btn btn-link" href="{{route('portal-register')}}">
                                 {{ __('Register') }}
-                            </a> --}}
+                            </a>
                         </div>
                     </form>
                 </div>

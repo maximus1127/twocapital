@@ -17,6 +17,7 @@
         justify-content: center;
       }
     </style>
+    @yield('header-styles')
 </head>
 
 <body>
@@ -72,10 +73,12 @@
                         <div class="container">
                             <nav>
                                 <ul>
-                                    <li><a href="#" class="scroll-to">Home</a></li>
-                                    <li><a href="#wwd" id="wwda" class="scroll-to">What We Do</a></li>
-                                      <li><a href="#membership" class="scroll-to">Become A Member</a></li>
-                                      <li><a href="#team" class="scroll-to">Meet Our Team</a></li>
+                                    <li><a href="{{\Request::is('/') ? "#" : '/' }}" class="scroll-to">Home</a></li>
+                                    <li><a href="{{\Request::is('/') ? "#wwd" : '/' }}" id="wwda" class="scroll-to">What We Do</a></li>
+                                      <li><a href="{{\Request::is('/') ? "#membership" : '/' }}" class="scroll-to">Become A Member</a></li>
+                                      <li><a href="{{\Request::is('/') ? "#team" : '/' }}"class="scroll-to">Meet Our Team</a></li>
+                                      <li><a href="{{route('salt2020')}}" class="scroll-to">Madeline Cove</a></li>
+                                      <li><a href="{{route('spa-media')}}" class="scroll-to">Media</a></li>
                                       <li><a href="{{route('investor-home')}}" class="scroll-to">Investor Login</a></li>
                                 </ul>
                             </nav>
@@ -153,8 +156,10 @@
             </div>
             <div class="copyright-content">
                 <div class="container">
+
                     <div class="copyright-text text-center">&copy; 2019 SALT Capital Equity Group
                         All Rights Reserved. </div>
+                        <p style="font-size: 7pt;" class="text-center">Salt Capital Equity Group, LLC (“SCEG”) operates a website at saltcapitalequitygroup.com (the “Site”). By using this website, you accept our <a href="/terms-of-service">Terms of Use</a> and <a href="/privacy-policy">Privacy Policy</a>. Past performance is no guarantee of future results. Any historical returns, expected returns, or probability projections may not reflect actual future performance. All securities involve risk and may result in partial or total loss. While the data we use from our underwriters and third parties is believed to be reliable, we cannot ensure the accuracy or completeness of third parties. Neither SCEG nor any of its affiliates provide tax advice and do not represent in any manner that the outcomes described herein will result in any particular tax consequence. Prospective investors should confer with their personal tax advisors regarding the tax consequences based on their particular circumstances. Neither SCEG nor any of its affiliates assume responsibility for the tax consequences for any investor of any investment.</p>
                 </div>
             </div>
         </footer>
@@ -168,11 +173,16 @@
     <script src="{{asset('/spa-js/plugins.js')}}"></script>
     <!--Template functions-->
     <script src="{{asset('/spa-js/functions.js')}}"></script>
+    @yield('footer-scripts')
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158697150-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-<script>
-
-
-</script>
+    gtag('config', 'UA-158697150-2');
+  </script>
 
 </body>
 

@@ -51,6 +51,10 @@
                                     <label for="message">Message</label>
                                     <textarea type="text" name="content" required rows="5" class="form-control required" placeholder="Enter your Message"></textarea>
                                 </div>
+                                <div class="form-group">
+                                    <label for="permission">To give us permission to contact you by phone, please enter your number.</label>
+                                    <input type="text" id="permission" name="permission" class="form-control" placeholder="111-222-3333">
+                                </div>
                                 <!--    <div class="form-group">
                                     <script src="https://www.google.com/recaptcha/api.js"></script>
                                     <div class="g-recaptcha" data-sitekey="6LddCxAUAAAAAKOg0-U6IprqOZ7vTfiMNSyQT2-M"></div>

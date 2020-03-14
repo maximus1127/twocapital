@@ -22,7 +22,7 @@
 			</div>
 			<section>
 
-				<div class="container">
+				<div class="container" id="app">
 
 
 					<div class="row">
@@ -42,8 +42,8 @@
 							    <tr>
 										<td>
 											@if($user->approved == 0)
-											<a href="{{route('approve-user', $user->id)}}" onclick="return confirm('Are you sure you want to APPROVE?')" ><i class="fas fa-check " style="color: green"></i></a>
-											<a href="{{route('decline-user', $user->id)}}" onclick="return confirm('Are you sure you want to DENY?')"><i class="fas fa-user-lock " style="color: red"></i></a><br />
+											<a href="{{route('approve-user', $user->id)}}" onclick="return confirm('Are you sure you want to APPROVE?')" ><i class="fas fa-check " style="color: green" title = 'Approve'></i></a>
+											<a href="{{route('decline-user', $user->id)}}" onclick="return confirm('Are you sure you want to DENY?')"><i class="fas fa-user-lock " style="color: red" title="Deny"></i></a><br />
 											 <small class="tooltiptext">Click lock to deny, check to approve</small>
 										 @else
 											 Approved

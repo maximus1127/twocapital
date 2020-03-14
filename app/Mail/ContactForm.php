@@ -16,11 +16,12 @@ class ContactForm extends Mailable
      *
      * @return void
      */
-    public function __construct($user, $email, $message)
+    public function __construct($user, $email, $message, $permission)
     {
         $this->user = $user;
         $this->message = $message;
         $this->email = $email;
+        $this->permission = $permission;
     }
 
     /**
@@ -30,6 +31,6 @@ class ContactForm extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.new-contact-form')->with(['user' => $this->user, 'content'=> $this->message, 'email' => $this->email]);
+        return $this->markdown('email.new-contact-form')->with(['user' => $this->user, 'content'=> $this->message, 'email' => $this->email, 'permission' => $this->permission]);
     }
 }

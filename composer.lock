@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc17b4509c0d6185269600b240fb119a",
+    "content-hash": "0e17f4bdd01f47b186744f80775a5435",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -219,6 +219,54 @@
                 "schedule"
             ],
             "time": "2019-03-31T00:38:28+00:00"
+        },
+        {
+            "name": "dusterio/link-preview",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dusterio/link-preview.git",
+                "reference": "a2ddd5882c065fe03b185933fba888955dbaa15a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dusterio/link-preview/zipball/a2ddd5882c065fe03b185933fba888955dbaa15a",
+                "reference": "a2ddd5882c065fe03b185933fba888955dbaa15a",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.1",
+                "illuminate/support": "5.*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dusterio\\LinkPreview\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Mysenko",
+                    "email": "denis@mysenko.com",
+                    "homepage": "https://www.mysenko.com"
+                }
+            ],
+            "description": "Link preview for PHP with Laravel provider",
+            "homepage": "http://github.com/dusterio/link-preview",
+            "keywords": [
+                "php",
+                "scraping",
+                "url"
+            ],
+            "time": "2016-03-15T04:32:55+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -4086,6 +4134,63 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "0287d4eee80aad718bdf7f90117cfe720c493064"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/0287d4eee80aad718bdf7f90117cfe720c493064",
+                "reference": "0287d4eee80aad718bdf7f90117cfe720c493064",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "~5.8|^6.0",
+                "illuminate/filesystem": "~5.8|^6.0",
+                "illuminate/support": "~5.8|^6.0",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "time": "2019-12-20T15:09:01+00:00"
         },
         {
             "name": "mockery/mockery",

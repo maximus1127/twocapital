@@ -176,7 +176,7 @@
             <h2>Membership</h2>
             <span class="lead">Become a member today and gain access to these benefits and many more. This can be accomplished in 3 simple steps: Fill out an application, complete your investor interview, get approved!</span>
             <br /><br />
-<a href="https://na3.docusign.net/Member/PowerFormSigning.aspx?PowerFormId=ca057ded-9396-443e-ba6a-78cbc18cc978&env=na3-eu1&acct=971291fa-c378-491c-b571-73ea68bf6dcb&v=2" target="_blank" class="btn scroll-to">Apply For Membership</a>
+            <a href="/learn-about-membership"  target="_blank" class="btn scroll-to">Learn About Membership</a>
 
         </div>
     </div>

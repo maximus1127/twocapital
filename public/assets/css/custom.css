@@ -1,0 +1,16 @@
+.fundedBanner {
+    position: absolute;
+    right: 0px;
+    top: 38%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 15px 15px;
+    font-size: 24px;
+    opacity: 0.5;
+    height: 60px;
+    z-index: 1;
+    text-transform: uppercase;
+    transform: rotate(-31deg) scaleX(2);
+    text-align: center;
+    vertical-align: middle;
+}

@@ -2,6 +2,7 @@
 @section('header_styles')
 <link rel="stylesheet" href="{{asset('/css/chat.css')}}" />
  <link  href="{{asset('/css/lightbox.min.css')}}" rel="stylesheet" type="text/css">
+ <link  href="{{asset('/assets/css/custom.css')}}" rel="stylesheet" type="text/css">
 
 
  <style>
@@ -373,9 +374,11 @@
                 @endif
                     {{-- endforeach --}}
                         </div>
+                        <span class="fundedBanner" style="background-color: rgba(243, 48, 108, .8); width: 100%;">Funded</span>
                       </div>
 
 											<span class="property-type" style="background-color: rgba(243, 48, 108, .8); ">Funded</span>
+
                     </div>
 
                     <div class="listing-detail-wrapper pb-0">
@@ -387,7 +390,8 @@
 
                     <div class="price-features-wrapper">
 											<div class="listing-price-fx">
-												<h6 class="listing-card-info-price price-prefix">{{number_format($listing->target_raise)}}</h6>
+                        <div class="progress-bar bg-success" role="progressbar" style="width:100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+												<h6 class="listing-card-info-price price-prefix">{{number_format($listing->current_raise).' of '.number_format($listing->target_raise)}}</h6>
 												<p>
 													Funded in {{$listing->elapsed}}
 												</p>
